@@ -13,7 +13,7 @@ import theme from "./style/theme";
 
 const styles = theme => ({
   app:  {
-      padding: '3em 2em'
+    // padding: '3em 2em'
   }
 });
 

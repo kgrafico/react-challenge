@@ -39,3 +39,13 @@ input:focus, input.form-control:focus {
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
 }
+
+footer {
+    background: $secondary;
+    color: $white;
+    width: 100%;
+    padding: 1rem;
+    margin: 0;
+    text-align: center;
+    transition: 200ms;
+}
