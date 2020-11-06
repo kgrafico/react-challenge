@@ -84,8 +84,8 @@ export const Container = props => {
     const [result, setResultValue] = useState("");
     const [error, setError] = useState({});
 
-    const [matrixXValue, setmatrixX] = useState(0);
-    const [matrixYValue, setmatrixY] = useState(0);
+    const [matrixXValue, setmatrixX] = useState("");
+    const [matrixYValue, setmatrixY] = useState("");
 
     const matrixX = params => {
         return setmatrixX(Number(params.split("x")[0]));
@@ -163,18 +163,28 @@ export const Container = props => {
     const createTable = () => {
         let table = []
     
-        for (let i = 0; i < matrixXValue; i++) {
+        for (let i = matrixXValue+1; i > 0; i--) {
           let children = []
-          for (let j = 0; j < matrixYValue; j++) {
+          for (let j = 0; j < matrixYValue+1; j++) {
               debugger;
-            if (j===0 && i===matrixXValue-1) {
-                children.push(<td key={`a1`}><img src={delivery} name={`a1`} id={`a1`}/></td>)
+            if (j===0 && i===1) {
+                children.push(<td  className="border-white" key={`a0`}><img src={delivery} name={`a0`} id={`a0`}/></td>)
             }
-            if (j>=0 && i>=0 && !(j===0 && i===matrixXValue-1)) {
-                children.push(<td key={`a${j + 1}`}><img src={white} name={`a${j + 1}`} id={`a${j + 1}`}/></td>)
+            if (j>=0 && i>=0 && !(j===0 && i===1) && !(j===matrixYValue) && !(i===matrixXValue+1 && j < matrixYValue+1)) {
+                children.push(<td  className="border-white" key={`a${j}`}><img src={white} name={`a${j}`} id={`a${j}`}/></td>)
+            }
+            if (j===matrixYValue) {
+                children.push(<td key={`a${matrixYValue}`}><img src={white} name={`a${matrixYValue}`} id={`a${matrixYValue}`}/></td>)
+            }
+            if (i===matrixXValue && j < matrixYValue) {
+                // children.push(<td key={`a${j}`}><img src={white} name={`a${j}`} id={`a${j}`}/></td>)
             }
           }
-          table.push(<tr key={`a${i + 1}`} className="table-tr">{children}</tr>)
+            if (i===matrixXValue+1) {
+                table.push(<tr key={`a${matrixYValue}`} className={`table-tr ${matrixYValue}`}>{children}</tr>)
+            } else {
+                table.push(<tr key={`a${i-1}`} className={`table-tr ${i-1}`}>{children}</tr>)
+            }
         }
         return table
       }

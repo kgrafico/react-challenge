@@ -154,17 +154,19 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 4em 2em 9em;
+            padding: 0em 0em 9em 6em;
             .table {
                 border: 0;
                 border-collapse: collapse;
                 .table-tr {
                     border: 0;
                     td {
-                        border: 1px solid white;
                         width: 100px;
                         height: 100px;
                         position: relative;
+                        &.border-white{
+                            border: 1px solid white;
+                        }
                         img {
                             position: absolute;
                             left: -45px;
