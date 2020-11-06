@@ -1,5 +1,13 @@
 @import '../../style/variable';
 
+.color-tertiary {
+    color: $tertiary;
+}
+
+.white-tertiary {
+    text-decoration: underline $white;
+}
+
 @mixin reset-button {
     overflow : visible;
     margin : 0;

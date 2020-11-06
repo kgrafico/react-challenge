@@ -132,8 +132,8 @@ export const Container = props => {
         <div id='layout' className="outer-container">
             <div className="content">
                 <h1>Pizzabot challenge</h1>
-                <h2 className="description">As part of our continuing commitment to the latest cutting-edge pizza technology research, Slice is working on a robot that delivers pizza. Therefore, given the following input string: <b>5x5 (1, 3) (4, 4)</b> one correct solution would be: <b>ENNNDEEEND</b></h2>
-                <h2 className="description">Our application can interpret this for you, it just needs you to enter <b>the board size</b> and <b>the coordinates</b> inside of the next input:</h2>
+                <h2 className="description">As part of our continuing commitment to the latest cutting-edge pizza technology research, Slice is working on a robot that delivers pizza. Therefore, given the following input string: <b className="color-tertiary">5x5 (1, 3) (4, 4)</b> one correct solution would be: <b className="color-tertiary">ENNNDEEEND</b></h2>
+                <h2 className="description">Our application can interpret this for you, it just needs you to enter <b className="white-tertiary">the board size</b> and <b className="white-tertiary">the coordinates</b> inside of the next input:</h2>
                 <div className="input-button">
                     <input required name="key" type="text" className="input-costumer" value={value.replace(/ /g, "").toLowerCase()} onChange={e => setValue(e.target.value.replace(/ /g, "").toLowerCase())}></input>
                     <button onClick={main} class="btn btn--stripe">Button</button>
