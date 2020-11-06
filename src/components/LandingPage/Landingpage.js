@@ -1,6 +1,9 @@
 import React, { useState, useForm } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import './LandingPage.scss';
+import delivery from '../../../img/delivery.png';
+import white from '../../../img/white.png';
+
 
 const styles = theme => ({});
 
@@ -95,28 +98,36 @@ export const Container = props => {
          return {x: matrixX(params), y: matrixY(params)};
     }
 
+    const moveDelivery = choice => {
+        const obj = {
+            'W': () => left(),
+            'E': () => right(),
+            'N': () => up(),
+            'S': () => down(),
+        }
+        return obj[choice]();
+    }
 
     const left = () =>{
-        document.getElementById('a'+position).src="img/blanco.jpg";
+        document.getElementById('a'+position).src={white};
         setPosition(value + 1);
-        document.getElementById("a"+position).src="img/pizza.jpg"
+        document.getElementById("a"+position).src={delivery}
     }
     const right = () =>{
-        document.getElementById('a'+position).src="img/blanco.jpg";
+        document.getElementById('a'+position).src={white};
         setPosition(value - 1);
-        document.getElementById("a"+position).src="img/pizza.jpg"
+        document.getElementById("a"+position).src={delivery}
     }
     const up = () => {
-        document.getElementById('a'+position).src="img/blanco.jpg";
-        setPosition(value - 1);
-        document.getElementById("a"+position).src="img/pizza.jpg"
+        document.getElementById('a'+position).src={white};
+        setPosition(value - matrixXValue);
+        document.getElementById("a"+position).src={delivery}
     }
     const down = () => {
-        document.getElementById('a'+position).src="img/blanco.jpg";
-        setPosition(value - 1);
-        document.getElementById("a"+position).src="img/pizza.jpg"
+        document.getElementById('a'+position).src={white};
+        setPosition(value + matrixYValue);
+        document.getElementById("a"+position).src={delivery}
     }
-
 
     const validator = () => {
         const reg = /((\d{1,})[x](\d{1,}))([(](\d{1,})[,](\d{1,})[)])+/;
@@ -155,7 +166,13 @@ export const Container = props => {
         for (let i = 0; i < matrixXValue; i++) {
           let children = []
           for (let j = 0; j < matrixYValue; j++) {
-            children.push(<td key={`a${j + 1}`}><img name={`a${j + 1}`} id={`a${j + 1}`}/></td>)
+              debugger;
+            if (j===0 && i===0) {
+                children.push(<td key={`a1`}><img src={delivery} name={`a1`} id={`a1`}/></td>)
+            }
+            if (j>=0 && i>=0 && !(j===0 && i===0)) {
+                children.push(<td key={`a${j + 1}`}><img src={white} name={`a${j + 1}`} id={`a${j + 1}`}/></td>)
+            }
           }
           table.push(<tr key={`a${i + 1}`} className="table-tr">{children}</tr>)
         }
