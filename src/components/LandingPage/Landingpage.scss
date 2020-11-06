@@ -164,6 +164,12 @@
                         border: 1px solid white;
                         width: 100px;
                         height: 100px;
+                        position: relative;
+                        img {
+                            position: absolute;
+                            left: -45px;
+                            bottom: -33px;
+                        }
                     }
                 }
             }

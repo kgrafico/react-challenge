@@ -167,10 +167,10 @@ export const Container = props => {
           let children = []
           for (let j = 0; j < matrixYValue; j++) {
               debugger;
-            if (j===0 && i===0) {
+            if (j===0 && i===matrixXValue-1) {
                 children.push(<td key={`a1`}><img src={delivery} name={`a1`} id={`a1`}/></td>)
             }
-            if (j>=0 && i>=0 && !(j===0 && i===0)) {
+            if (j>=0 && i>=0 && !(j===0 && i===matrixXValue-1)) {
                 children.push(<td key={`a${j + 1}`}><img src={white} name={`a${j + 1}`} id={`a${j + 1}`}/></td>)
             }
           }
