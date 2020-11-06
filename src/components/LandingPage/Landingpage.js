@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useForm } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import './LandingPage.scss';
 
@@ -47,10 +47,10 @@ const idx = params => {
 }
 
 const matrixX = params => {
-    return Number(params.substr(0,1));
+    return Number(params.split("x")[0]);
 }
 const matrixY = params => {
-    return Number(params.substr(2,1));
+    return Number(params.split("x")[1].split("(")[0]);
 }
 
 const matrix = params => {
@@ -85,33 +85,47 @@ const parseParams = el => {
 
 const Footer = ({title}) => (<footer>{title}</footer>);
 
+const is_numeric = value => {
+	return !isNaN(parseFloat(value)) && isFinite(value);
+}
+
 export const Container = props => {
-    const { classes, result } = props;
+    const { classes } = props;
     const [value, setValue] = useState("");
-    const [resultFinal, setResultValue] = useState("");
+    const [result, setResultValue] = useState("");
+    const [error, setError] = useState({});
+
+
+    const validator = () => {
+        const reg = /((\d{1,})[x](\d{1,}))([(](\d{1,})[,](\d{1,})[)])+/;
+        return reg.test(value);
+    }
+
+    const weCanDelivery = deliverPoints => {
+        setResultValue(routeFinal(deliverPoints))
+        setError({});
+    }   
+
 
     const main = () => {
-        // #######################################################################################
+
         // ### You can youse the object with the examples (argsExample) to use with NODEMON ######
         // ############ if you execute this function with this uncommented variable #############
         //  ----------->      const arg = argsExample('sliceexample');
         //   ----------->     const deliverPoints = parseParams(idx(arg));
         //   ----------->     const dimensions = matrix(arg);
-        // #####################################################################################
-
-    
-        // Ckeck si arg es correcto.
     
         const deliverPoints = parseParams(idx(value));
         const dimensions = matrix(value);
-    
-        if (checkDeliveryPoints(deliverPoints, dimensions)) {
-            console.log("We can delivery")
-        } else {
-            console.log('we dont')
+        
+        if (!validator()) {
+            return setError({error: 'The coordinates are incorrect follow the rules to be able to to continue to the next step'});
         }
+
+        checkDeliveryPoints(deliverPoints, dimensions) 
+            ? weCanDelivery(deliverPoints)
+            : setError({error: 'The order is outside our area'})
     
-        setResultValue(routeFinal(deliverPoints));
     }
     
     return (
@@ -121,10 +135,11 @@ export const Container = props => {
                 <h2 className="description">As part of our continuing commitment to the latest cutting-edge pizza technology research, Slice is working on a robot that delivers pizza. Therefore, given the following input string: <b>5x5 (1, 3) (4, 4)</b> one correct solution would be: <b>ENNNDEEEND</b></h2>
                 <h2 className="description">Our application can interpret this for you, it just needs you to enter <b>the board size</b> and <b>the coordinates</b> inside of the next input:</h2>
                 <div className="input-button">
-                    <input className="input-costumer" value={value.replace(/ /g, "")} onChange={e => setValue(e.target.value.replace(/ /g, ""))}></input>
+                    <input required name="key" type="text" className="input-costumer" value={value.replace(/ /g, "").toLowerCase()} onChange={e => setValue(e.target.value.replace(/ /g, "").toLowerCase())}></input>
                     <button onClick={main} class="btn btn--stripe">Button</button>
+                    <div className={`error-message ${!!error.error}`}>{error.error}</div>
+                    <h2 className="result">{result}</h2>
                 </div>
-                <p>{resultFinal}</p>
                 <form className="form">
                     <table className="table">
                         <tr className="table-tr">

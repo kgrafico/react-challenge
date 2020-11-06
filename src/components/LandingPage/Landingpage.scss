@@ -59,6 +59,18 @@
                 border-bottom-left-radius: 20px 50px;
                 // cursor: pointer;
             }
+            .error-message {
+                width: 70%;
+                background-color: $error1;
+                padding: 20px;
+                color: $error2;
+                &.false{
+                    display: none;
+                }
+            }
+            .result {
+                color: $tertiary;
+            }
             .btn {
                 width: 150px;
                 @include reset-button;
