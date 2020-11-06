@@ -50,7 +50,7 @@ const matrixX = params => {
     return Number(params.split("x")[0]);
 }
 const matrixY = params => {
-    return Number(params.split("x")[1].split("(")[0]);
+    return Number(params.split("x")[1] && params.split("x")[1].split("(")[0]);
 }
 
 const matrix = params => {
@@ -138,7 +138,7 @@ export const Container = props => {
                     <input required name="key" type="text" className="input-costumer" value={value.replace(/ /g, "").toLowerCase()} onChange={e => setValue(e.target.value.replace(/ /g, "").toLowerCase())}></input>
                     <button onClick={main} class="btn btn--stripe">Button</button>
                     <div className={`error-message ${!!error.error}`}>{error.error}</div>
-                    <h2 className="result">{result}</h2>
+                    <h2 className={`result ${!!!error.error}`}>{result}</h2>
                 </div>
                 <form className="form">
                     <table className="table">

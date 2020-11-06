@@ -78,6 +78,9 @@
             }
             .result {
                 color: $tertiary;
+                &.false{
+                    display: none;
+                }
             }
             .btn {
                 width: 150px;
