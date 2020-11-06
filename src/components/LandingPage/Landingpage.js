@@ -97,11 +97,9 @@ export const Container = props => {
     const matrixY = params => {
         setmatrixY(Number(params.split("x")[1] && params.split("x")[1].split("(")[0]));
         return matrixYValue;
-
     }
     
     const matrix = params => {
-        debugger;
          return {x: matrixX(params), y: matrixY(params)};
     }
 
