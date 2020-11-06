@@ -176,12 +176,9 @@ export const Container = props => {
             if (j===matrixYValue) {
                 children.push(<td key={`a${matrixYValue}`}><img src={white} name={`a${matrixYValue}`} id={`a${matrixYValue}`}/></td>)
             }
-            if (i===matrixXValue && j < matrixYValue) {
-                // children.push(<td key={`a${j}`}><img src={white} name={`a${j}`} id={`a${j}`}/></td>)
-            }
           }
             if (i===matrixXValue+1) {
-                table.push(<tr key={`a${matrixYValue}`} className={`table-tr ${matrixYValue}`}>{children}</tr>)
+                table.push(<tr key={`a${matrixXValue}`} className={`table-tr ${matrixXValue}`}>{children}</tr>)
             } else {
                 table.push(<tr key={`a${i-1}`} className={`table-tr ${i-1}`}>{children}</tr>)
             }
