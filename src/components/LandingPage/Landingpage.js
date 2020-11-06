@@ -84,17 +84,24 @@ export const Container = props => {
     const [result, setResultValue] = useState("");
     const [error, setError] = useState({});
 
+    const [deliverPoints, setDeliveryPoints] = useState([]);
+
+
     const [matrixXValue, setmatrixX] = useState("");
     const [matrixYValue, setmatrixY] = useState("");
 
     const matrixX = params => {
-        return setmatrixX(Number(params.split("x")[0]));
+        setmatrixX(Number(params.split("x")[0]));
+        return matrixXValue;
     }
     const matrixY = params => {
-        return setmatrixY(Number(params.split("x")[1] && params.split("x")[1].split("(")[0]));
+        setmatrixY(Number(params.split("x")[1] && params.split("x")[1].split("(")[0]));
+        return matrixYValue;
+
     }
     
     const matrix = params => {
+        debugger;
          return {x: matrixX(params), y: matrixY(params)};
     }
 
@@ -146,8 +153,11 @@ export const Container = props => {
         //  ----------->      const arg = argsExample('sliceexample');
         //   ----------->     const deliverPoints = parseParams(idx(arg));
         //   ----------->     const dimensions = matrix(arg);
+
+        setDeliveryPoints(parseParams(idx(value)))
     
-        const deliverPoints = parseParams(idx(value));
+        debugger;
+        // const deliverPoints = parseParams(idx(value));
         const dimensions = matrix(value);
         
         if (!validator()) {
@@ -166,7 +176,6 @@ export const Container = props => {
         for (let i = matrixXValue+1; i > 0; i--) {
           let children = []
           for (let j = 0; j < matrixYValue+1; j++) {
-              debugger;
             if (j===0 && i===1) {
                 children.push(<td  className="border-white" key={`a0`}><img src={delivery} name={`a0`} id={`a0`}/></td>)
             }
