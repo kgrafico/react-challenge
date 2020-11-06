@@ -45,17 +45,6 @@ const idx = params => {
     return params.substr(3,);
 }
 
-const matrixX = params => {
-    return Number(params.split("x")[0]);
-}
-const matrixY = params => {
-    return Number(params.split("x")[1] && params.split("x")[1].split("(")[0]);
-}
-
-const matrix = params => {
-     return {x: matrixX(params), y: matrixY(params)};
-}
-
 const checkDeliveryPoints = (points, d) => {
     return points.map(el => {
         if (el.x > d.x) {
@@ -84,10 +73,6 @@ const parseParams = el => {
 
 const Footer = ({title}) => (<footer>{title}</footer>);
 
-const is_numeric = value => {
-	return !isNaN(parseFloat(value)) && isFinite(value);
-}
-
 export const Container = props => {
     const { classes } = props;
     const [value, setValue] = useState("");
@@ -95,6 +80,20 @@ export const Container = props => {
 
     const [result, setResultValue] = useState("");
     const [error, setError] = useState({});
+
+    const [matrixXValue, setmatrixX] = useState(0);
+    const [matrixYValue, setmatrixY] = useState(0);
+
+    const matrixX = params => {
+        return setmatrixX(Number(params.split("x")[0]));
+    }
+    const matrixY = params => {
+        return setmatrixY(Number(params.split("x")[1] && params.split("x")[1].split("(")[0]));
+    }
+    
+    const matrix = params => {
+         return {x: matrixX(params), y: matrixY(params)};
+    }
 
 
     const left = () =>{
@@ -154,14 +153,14 @@ export const Container = props => {
         let table = []
     
         // Outer loop to create parent
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < matrixXValue; i++) {
           let children = []
           //Inner loop to create children
-          for (let j = 0; j < 5; j++) {
-            children.push(<td><img name={`a${j + 1}`} id={`a${j + 1}`}/></td>)
+          for (let j = 0; j < matrixYValue; j++) {
+            children.push(<td key={`a${j + 1}`}><img name={`a${j + 1}`} id={`a${j + 1}`}/></td>)
           }
           //Create the parent and add the children
-          table.push(<tr className="table-tr">{children}</tr>)
+          table.push(<tr key={`a${i + 1}`} className="table-tr">{children}</tr>)
         }
         return table
       }
@@ -174,13 +173,15 @@ export const Container = props => {
                 <h2 className="description">Our application can interpret this for you, it just needs you to enter <b className="white-tertiary">the board size</b> and <b className="white-tertiary">the coordinates</b> inside of the next input:</h2>
                 <div className="input-button">
                     <input required name="key" type="text" className="input-costumer" value={value.replace(/ /g, "").toLowerCase()} onChange={e => setValue(e.target.value.replace(/ /g, "").toLowerCase())}></input>
-                    <button onClick={main} class="btn btn--stripe">Button</button>
+                    <button onClick={main} className="btn btn--stripe">Button</button>
                     <div className={`error-message ${!!error.error}`}>{error.error}</div>
                     <h2 className={`result ${!!!error.error}`}>{result}</h2>
                 </div>
                 <form className="form">
                     <table className="table">
-                        {createTable()}
+                        <tbody>
+                            {createTable()}
+                        </tbody>
                     </table>
                 </form>
             </div>

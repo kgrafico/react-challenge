@@ -39,6 +39,7 @@
     overflow: auto;
     .content {
         padding: 70px 40px 0 40px;
+        height: 87%;
         .description {
             max-width: 20em;
             margin: 1.2em auto 1em;
@@ -153,7 +154,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 2em 2em;
+            padding: 4em 2em 9em;
             .table {
                 border: 0;
                 border-collapse: collapse;
