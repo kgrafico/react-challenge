@@ -152,14 +152,11 @@ export const Container = props => {
     const createTable = () => {
         let table = []
     
-        // Outer loop to create parent
         for (let i = 0; i < matrixXValue; i++) {
           let children = []
-          //Inner loop to create children
           for (let j = 0; j < matrixYValue; j++) {
             children.push(<td key={`a${j + 1}`}><img name={`a${j + 1}`} id={`a${j + 1}`}/></td>)
           }
-          //Create the parent and add the children
           table.push(<tr key={`a${i + 1}`} className="table-tr">{children}</tr>)
         }
         return table
