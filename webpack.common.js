@@ -8,7 +8,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-        title: 'Blackriver',
+        title: 'Pizzabot challenge',
         template: './public/index.html',
         favicon: './public/favicon.ico'
     })
