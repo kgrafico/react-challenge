@@ -4,7 +4,6 @@ import './LandingPage.scss';
 
 const styles = theme => ({});
 
-
 const routeFinal = deliverPoints => {
     let initialPoint = {x:0, y:0};
     let route = '';
@@ -92,8 +91,32 @@ const is_numeric = value => {
 export const Container = props => {
     const { classes } = props;
     const [value, setValue] = useState("");
+    const [position, setPosition] = useState(0);
+
     const [result, setResultValue] = useState("");
     const [error, setError] = useState({});
+
+
+    const left = () =>{
+        document.getElementById('a'+position).src="img/blanco.jpg";
+        setPosition(value + 1);
+        document.getElementById("a"+position).src="img/pizza.jpg"
+    }
+    const right = () =>{
+        document.getElementById('a'+position).src="img/blanco.jpg";
+        setPosition(value - 1);
+        document.getElementById("a"+position).src="img/pizza.jpg"
+    }
+    const up = () => {
+        document.getElementById('a'+position).src="img/blanco.jpg";
+        setPosition(value - 1);
+        document.getElementById("a"+position).src="img/pizza.jpg"
+    }
+    const down = () => {
+        document.getElementById('a'+position).src="img/blanco.jpg";
+        setPosition(value - 1);
+        document.getElementById("a"+position).src="img/pizza.jpg"
+    }
 
 
     const validator = () => {
@@ -104,8 +127,7 @@ export const Container = props => {
     const weCanDelivery = deliverPoints => {
         setResultValue(routeFinal(deliverPoints))
         setError({});
-    }   
-
+    }
 
     const main = () => {
 
@@ -127,6 +149,22 @@ export const Container = props => {
             : setError({error: 'The order is outside our area'})
     
     }
+
+    const createTable = () => {
+        let table = []
+    
+        // Outer loop to create parent
+        for (let i = 0; i < 5; i++) {
+          let children = []
+          //Inner loop to create children
+          for (let j = 0; j < 5; j++) {
+            children.push(<td><img name={`a${j + 1}`} id={`a${j + 1}`}/></td>)
+          }
+          //Create the parent and add the children
+          table.push(<tr className="table-tr">{children}</tr>)
+        }
+        return table
+      }
     
     return (
         <div id='layout' className="outer-container">
@@ -142,41 +180,7 @@ export const Container = props => {
                 </div>
                 <form className="form">
                     <table className="table">
-                        <tr className="table-tr">
-                            <td><img src="" name="a1" id="a1"/></td>
-                            <td><img src="" name="a2" id="a2"/></td>
-                            <td><img src="" name="a3" id="a3"/></td>
-                            <td><img src="" name="a4" id="a4"/></td>
-                            <td><img src="" name="a5" id="a5"/></td>
-                        </tr>
-                        <tr className="table-tr">
-                            <td><img src="" name="a6" id="a6"/></td>
-                            <td><img src="" name="a7" id="a7"/></td>
-                            <td><img src="" name="a8" id="a8"/></td>
-                            <td><img src="" name="a9" id="a9"/></td>
-                            <td><img src="" name="a10" id="a10"/></td>
-                        </tr>
-                        <tr className="table-tr">
-                            <td><img src="" name="a11" id="a11"/></td>
-                            <td><img src="" name="a12" id="a12"/></td>
-                            <td><img src="" name="a13" id="a13"/></td>
-                            <td><img src="" name="a14" id="a14"/></td>
-                            <td><img src="" name="a15" id="a15"/></td>
-                        </tr>
-                        <tr className="table-tr">
-                            <td><img src="" name="a16" id="a16"/></td>
-                            <td><img src="" name="a17" id="a17"/></td>
-                            <td><img src="" name="a18" id="a18"/></td>
-                            <td><img src="" name="a19" id="a19"/></td>
-                            <td><img src="" name="a20" id="a20"/></td>
-                        </tr>
-                        <tr className="table-tr">
-                            <td><img src="" name="a21" id="a21"/></td>
-                            <td><img src="" name="a22" id="a22"/></td>
-                            <td><img src="" name="a23" id="a23"/></td>
-                            <td><img src="" name="a24" id="a24"/></td>
-                            <td><img src="" name="a25" id="a25"/></td>
-                        </tr>
+                        {createTable()}
                     </table>
                 </form>
             </div>
