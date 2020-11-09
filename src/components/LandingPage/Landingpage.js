@@ -14,18 +14,14 @@ export const Container = props => {
     const [result, setResultValue] = useState("");
     const [error, setError] = useState({});
 
-    const [deliveryPoints, setDeliveryPoints] = useState([]);
-    const [deliveryArea, setDeliveryArea] = useState({});
-
-    const setValuesOfDelivery = (area, point) => { setDeliveryArea(area); setDeliveryPoints(point);};
-    const finalResult = el => {setResultValue(el);}
-
     const parseParams = el => {
         const num = el.split(/[()]+/).filter((e) => e);
         const size = formatPoint( "x" , [num[0]]);
         const arr = formatPoint(",", num.slice(1));
 
-        setValuesOfDelivery(size[0], arr);
+        checkDeliveryPoints(arr, size[0]) 
+            ? weCanDelivery(arr)
+            : setError({error: 'The order is outside our area'})
     }
     const routeFinal = deliveryPoints => {
         let initialPoint = {x:0, y:0};
@@ -84,24 +80,19 @@ export const Container = props => {
     }
 
     const weCanDelivery = d => {
-        finalResult(routeFinal(d));
+        setResultValue(routeFinal(d));
         setError({});
     }
 
     const main = () => {
-            if (!validator()) {
-                setError({error: 'The coordinates are incorrect follow the rules to be able to to continue to the next step'});
-                return;
-            }
-    
-            parseParams(value)
-    
-            checkDeliveryPoints(deliveryPoints, deliveryArea) 
-                ? weCanDelivery(deliveryPoints)
-                : setError({error: 'The order is outside our area'})
-        
-    
+        if (!validator()) {
+            setError({error: 'The coordinates are incorrect follow the rules to be able to to continue to the next step'});
+            return;
+        }
+
+        parseParams(value);
     }
+
     
     return (
         <div id='layout' className="outer-container">
