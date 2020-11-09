@@ -11,11 +11,7 @@ import {
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import theme from "./style/theme";
 
-const styles = theme => ({
-  app:  {
-    // padding: '3em 2em'
-  }
-});
+const styles = theme => ({});
 
 
 const Landing = () => (
