@@ -1,197 +1,107 @@
 import React, { useState, useForm } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import './LandingPage.scss';
-import delivery from '../../../img/delivery.png';
-import white from '../../../img/white.png';
-
 
 const styles = theme => ({});
-
-const routeFinal = deliverPoints => {
-    let initialPoint = {x:0, y:0};
-    let route = '';
-
-    deliverPoints.map(e => {
-        route = route + planRoute(initialPoint, e);
-        initialPoint = e
-    });
-
-    return route;
-
-}
-
-const planRoute = (initialPoint, deliverPoint) => {
-
-    let routeString1 = initialPoint.x < deliverPoint.x ? route(deliverPoint.x, initialPoint.x, 'E') : route(initialPoint.x, deliverPoint.x, 'W');
-    let routeString2 = initialPoint.y < deliverPoint.y ? route(deliverPoint.y, initialPoint.y, 'N') : route(initialPoint.x, deliverPoint.x, 'S');
-
-    return routeString1+routeString2+"D";
-}
-
-const route = (a, b, letter) => {
-    let diff = a - b;
-    a > b ? diff : diff = 0;
-    return letter.repeat(diff) ;
-}
-
-
-const argsExample = choice => {
-    const obj = {
-        badParams: '5x5(1,2)(3,4)(5,6)(7,8)',
-        goodParams: '5x5(1,2)(3,4)(4,4)(3,4)',
-        sliceexample: '5x5 (1,3) (4,4)'
-    }
-    return obj[choice].replace(/ /g, "");
-}
-
-const idx = params => {
-    return params.substr(3,);
-}
-
-const checkDeliveryPoints = (points, d) => {
-    return points.map(el => {
-        if (el.x > d.x) {
-            return false
-        }
-        if (el.y > d.y) {
-            return false
-        }
-        return true
-    })
-}
-
-const parseParams = el => {
-    const arr = el.split(/[()]+/).filter((e) => e);
-
-    return arr.reduce((total = [], coo) => {
-        const couple = new Object();
-        coo.split("").map( (e, i, o) => { 
-            couple.x = Number(o[0]);
-            couple.y = Number(o[2]);
-        })
-        total.push(couple);
-        return total;
-    }, [])
-}
 
 const Footer = ({title}) => (<footer>{title}</footer>);
 
 export const Container = props => {
     const { classes } = props;
+
     const [value, setValue] = useState("");
-    const [position, setPosition] = useState(0);
 
     const [result, setResultValue] = useState("");
     const [error, setError] = useState({});
 
-    const [deliverPoints, setDeliveryPoints] = useState([]);
+    const [deliveryPoints, setDeliveryPoints] = useState([]);
+    const [deliveryArea, setDeliveryArea] = useState({});
 
+    const setValuesOfDelivery = (area, point) => { setDeliveryArea(area); setDeliveryPoints(point);};
+    const finalResult = el => {setResultValue(el);}
 
-    const [matrixXValue, setmatrixX] = useState("");
-    const [matrixYValue, setmatrixY] = useState("");
+    const parseParams = el => {
+        const num = el.split(/[()]+/).filter((e) => e);
+        const size = formatPoint( "x" , [num[0]]);
+        const arr = formatPoint(",", num.slice(1));
 
-    const matrixX = params => {
-        setmatrixX(Number(params.split("x")[0]));
-        return matrixXValue;
+        setValuesOfDelivery(size[0], arr);
     }
-    const matrixY = params => {
-        setmatrixY(Number(params.split("x")[1] && params.split("x")[1].split("(")[0]));
-        return matrixYValue;
+    const routeFinal = deliveryPoints => {
+        let initialPoint = {x:0, y:0};
+        let route = '';
+    
+        deliveryPoints.map(e => {
+            route = route + planRoute(initialPoint, e);
+            initialPoint = e
+        });
+        return route;
     }
     
-    const matrix = params => {
-         return {x: matrixX(params), y: matrixY(params)};
+    const planRoute = (initialPoint, deliverPoint) => {
+    
+        let routeString1 = initialPoint.x < deliverPoint.x ? route(deliverPoint.x, initialPoint.x, 'E') : route(initialPoint.x, deliverPoint.x, 'W');
+        let routeString2 = initialPoint.y < deliverPoint.y ? route(deliverPoint.y, initialPoint.y, 'N') : route(initialPoint.x, deliverPoint.x, 'S');
+    
+        return routeString1+routeString2+"D";
     }
-
-    const moveDelivery = choice => {
-        const obj = {
-            'W': () => left(),
-            'E': () => right(),
-            'N': () => up(),
-            'S': () => down(),
+    
+    const route = (a, b, letter) => {
+        let diff = a - b;
+        a > b ? diff : diff = 0;
+        return letter.repeat(diff) ;
+    }
+    
+    const formatPoint = (mySeparator, myPoints) => {
+        let myResult = [];
+        let tmp = [];
+    
+        for (let i = 0; i < myPoints.length; i++) {
+            tmp = myPoints[i].split(mySeparator);
+            myResult.push({
+                x: Number(tmp[0]), 
+                y: Number(tmp[1])
+            });
         }
-        return obj[choice]();
+        return myResult;
     }
 
-    const left = () =>{
-        document.getElementById('a'+position).src={white};
-        setPosition(value + 1);
-        document.getElementById("a"+position).src={delivery}
-    }
-    const right = () =>{
-        document.getElementById('a'+position).src={white};
-        setPosition(value - 1);
-        document.getElementById("a"+position).src={delivery}
-    }
-    const up = () => {
-        document.getElementById('a'+position).src={white};
-        setPosition(value - matrixXValue);
-        document.getElementById("a"+position).src={delivery}
-    }
-    const down = () => {
-        document.getElementById('a'+position).src={white};
-        setPosition(value + matrixYValue);
-        document.getElementById("a"+position).src={delivery}
+    const checkDeliveryPoints = (points, area) => {
+        for(let i = 0; i < points.length; i++) {
+            if (points[i].x > area.x) {
+                return false;
+            }
+            if (points[i].y > area.y) {
+                return false;
+            }
+        }
+        return true;
     }
 
     const validator = () => {
-        const reg = /((\d{1,})[x](\d{1,}))([(](\d{1,})[,](\d{1,})[)])+/;
+        const reg = /^((\d{1,})[x](\d{1,}))([(](\d{1,})[,](\d{1,})[)])+$/;
         return reg.test(value);
     }
 
-    const weCanDelivery = deliverPoints => {
-        setResultValue(routeFinal(deliverPoints))
+    const weCanDelivery = d => {
+        finalResult(routeFinal(d));
         setError({});
     }
 
     const main = () => {
-
-        // ### You can youse the object with the examples (argsExample) to use with NODEMON ######
-        // ############ if you execute this function with this uncommented variable #############
-        //  ----------->      const arg = argsExample('sliceexample');
-        //   ----------->     const deliverPoints = parseParams(idx(arg));
-        //   ----------->     const dimensions = matrix(arg);
-
-        setDeliveryPoints(parseParams(idx(value)))
+            if (!validator()) {
+                setError({error: 'The coordinates are incorrect follow the rules to be able to to continue to the next step'});
+                return;
+            }
     
-        debugger;
-        // const deliverPoints = parseParams(idx(value));
-        const dimensions = matrix(value);
+            parseParams(value)
+    
+            checkDeliveryPoints(deliveryPoints, deliveryArea) 
+                ? weCanDelivery(deliveryPoints)
+                : setError({error: 'The order is outside our area'})
         
-        if (!validator()) {
-            return setError({error: 'The coordinates are incorrect follow the rules to be able to to continue to the next step'});
-        }
-
-        checkDeliveryPoints(deliverPoints, dimensions) 
-            ? weCanDelivery(deliverPoints)
-            : setError({error: 'The order is outside our area'})
     
     }
-
-    const createTable = () => {
-        let table = []
-    
-        for (let i = matrixXValue+1; i > 0; i--) {
-          let children = []
-          for (let j = 0; j < matrixYValue+1; j++) {
-            if (j===0 && i===1) {
-                children.push(<td  className="border-white" key={`a0`}><img src={delivery} name={`a0`} id={`a0`}/></td>)
-            }
-            if (j>=0 && i>=0 && !(j===0 && i===1) && !(j===matrixYValue) && !(i===matrixXValue+1 && j < matrixYValue+1)) {
-                children.push(<td  className="border-white" key={`a${j}`}><img src={white} name={`a${j}`} id={`a${j}`}/></td>)
-            }
-            if (j===matrixYValue) {
-                children.push(<td key={`a${matrixYValue}`}><img src={white} name={`a${matrixYValue}`} id={`a${matrixYValue}`}/></td>)
-            }
-          }
-            if (i===matrixXValue+1) {
-                table.push(<tr key={`a${matrixXValue}`} className={`table-tr ${matrixXValue}`}>{children}</tr>)
-            } else {
-                table.push(<tr key={`a${i-1}`} className={`table-tr ${i-1}`}>{children}</tr>)
-            }
-        }
-        return table
-      }
     
     return (
         <div id='layout' className="outer-container">
@@ -205,13 +115,6 @@ export const Container = props => {
                     <div className={`error-message ${!!error.error}`}>{error.error}</div>
                     <h2 className={`result ${!!!error.error}`}>{result}</h2>
                 </div>
-                <form className="form">
-                    <table className="table">
-                        <tbody>
-                            {createTable()}
-                        </tbody>
-                    </table>
-                </form>
             </div>
             <Footer title={'Created by: Carolina Chamorro'}/>
         </div>
